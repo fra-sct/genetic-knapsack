@@ -66,11 +66,10 @@ class GeneticAlgorithm(object):
 					print("Generation %6s - Average fitness: %f%%" % (self.generation, average_fitness * 100))
 		except KeyboardInterrupt:
 			pass
-		print("\nEvolution stopped at generation %s." % self.generation)
 		solution = self.grade(self.population)[0]
 		if not silent:
-			print("Best solution found: %s (Fitness: %f%%)" % 
-			(solution, self.fitness(solution)*100))
+			print("\nEvolution stopped at generation %s." % self.generation)
+			print("Best solution found has fitness %f%%" % (self.fitness(solution)*100))
 		return solution
 	def print_banner(self, fitness, generation):
 		print(" Starting evolution ".center(79, "="))

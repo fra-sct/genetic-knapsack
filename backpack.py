@@ -88,3 +88,7 @@ if __name__ == "__main__":
 		update_each = args.generation // 20 if args.generation else 100,
 		silent = not args.verbose,
 	)
+	if args.verbose: print()
+	print(backpack.fitness(solution) * backpack_size)
+	for i, present in enumerate(solution):
+		if present: print(nuggets[i])
