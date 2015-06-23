@@ -85,7 +85,7 @@ class GeneticAlgorithm(object):
 		print("-"*79)
 	def grade(self, population):
 		graded = [(self.fitness(genome), genome) for genome in population]
-		graded = [item[1] for item in sorted(graded, reverse=True)]
+		graded = [item[1] for item in sorted(graded, key=lambda i: i[0], reverse=True)]
 		return graded
 	def generate(self):
 		pass
