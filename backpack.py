@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#An attempt at finding a solution to the challenge #219 of /r/DailyProgrammer
+#(http://www.reddit.com/r/dailyprogrammer/comments/3aewlg/)
+#I am using a genetic algorithm to find an (usually approximate) solution.
 from __future__ import print_function, division
 import genetic_algorithm as ga
 import sys, random, argparse
