@@ -51,19 +51,40 @@ def crossover(length):
 	return _crossover
 
 if __name__ == "__main__":
-	if len(sys.argv) > 1:
-		infile = open(sys.argv[1], "r")
-	backpack_size, nuggets = parse_input(infile.read())
+	parser = argparse.ArgumentParser(description="Finds a solution to the knapsack problem using genetic programming.")
+	parser.add_argument('infile', type=argparse.FileType('r'), 
+		help="The file from which to read the problem to solve.")
+	parser.add_argument('-p', '--population', type=int, default=100,
+		metavar='P', help="size of the population to evolve (default: %(default)s)")
+	parser.add_argument('-r', '--retain', type=float, default=0.2,
+		metavar='R', help="percent of individuals to retain (default: %(default)s)")
+	parser.add_argument('-d', '--diversity', type=float, default=0.05,
+		metavar='D', help="percent of individuals to retain to improve genetic diversity (default: %(default)s)")
+	parser.add_argument('-m', '--mutation', type=float, default=0.01,
+		metavar='M', help="mutation rate (default: %(default)s)")
+	parser.add_argument('-t', '--target', type=float, default=0.99,
+		metavar='T', help="target fitness (default: %(default)s)")
+	parser.add_argument('-g', '--generation', type=int, default=None,
+		metavar='G', help="maximum number of generations (default: %(default)s)")
+	parser.add_argument('-v', '--verbose', action='count',
+		help="show a more detailed output")
+	args = parser.parse_args()
+
+	backpack_size, nuggets = parse_input(args.infile.read())
 	genome_width = len(nuggets)
 	backpack = ga.GeneticAlgorithm(
-		population = 100,
+		population = args.population,
+		retain = args.retain,
+		random_select = args.diversity,
+		mutation_rate = args.mutation,
 		generate_function = generate(genome_width),
 		fitness_function = fitness(backpack_size, nuggets),
 		mutate_function = mutate(genome_width),
 		crossover_function = crossover(genome_width)
 	)
 	solution = backpack.evolve_until(
-		fitness=0.99999, 
-		generation=10000, 
-		update_each=100
+		fitness = args.target, 
+		generation = args.generation, 
+		update_each = args.generation // 20 if args.generation else 100,
+		silent = not args.verbose,
 	)
